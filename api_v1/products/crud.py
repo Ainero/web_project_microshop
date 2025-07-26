@@ -24,10 +24,10 @@ async def create_product(
     session: AsyncSession, product_in: ProductCreate
 ) -> Product | None:
     Product(**product_in.model_dump())
-    session.add(product)
+    session.add(product)  # type: ignore
     await session.commit()
-    await session.refresh(product)
-    return product
+    await session.refresh(product)  # type: ignore
+    return product  # type: ignore
 
 
 async def update_product(
@@ -47,7 +47,7 @@ async def update_product_partial(
     product: Product,
     product_update_partial: ProductUpdatePartial,
 ):
-    for name, value in product_update.model_dump(exclude_unset=True).items():
+    for name, value in product_update.model_dump(exclude_unset=True).items():  # type: ignore
         setattr(product, name, value)
     await session.commit()
     return product
